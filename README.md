@@ -44,3 +44,11 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+apiKey: "AIzaSyCblmPQzel7r4u70ZxdCrFmDmeGXBK3J64",
+  authDomain: "letmeask-26ec4.firebaseapp.com",
+  databaseURL: "https://letmeask-26ec4-default-rtdb.firebaseio.com",
+  projectId: "letmeask-26ec4",
+  storageBucket: "letmeask-26ec4.appspot.com",
+  messagingSenderId: "686340601527",
+  appId: "1:686340601527:web:7822b3ca4bdd1ace373f32",
