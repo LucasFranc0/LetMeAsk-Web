@@ -1,6 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from "react"
-import { auth } from "../services/firebase"
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
+import { auth, firebase } from "../services/firebase"
 
 type AuthContextType = {
   user: User | undefined
@@ -14,59 +13,56 @@ type User = {
 }
 
 type AuthContextProviderProps = {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export const AuthContext = createContext({} as AuthContextType)
 
-
 export function AuthContextProvider(props: AuthContextProviderProps) {
-     const [user, setUser] = useState<User>()
+  const [user, setUser] = useState<User>()
 
-     useEffect(() => {
-       const unsubscribe = auth.onAuthStateChanged((user) => {
-         if (user) {
-           const { displayName, photoURL, uid } = user
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const { displayName, photoURL, uid } = user
 
-           if (!displayName || !photoURL) {
-             throw new Error("Missing information from Google Account.")
-           }
-           setUser({
-             id: uid,
-             name: displayName,
-             avatar: photoURL,
-           })
-         }
-       })
-       return () => {
-         unsubscribe()
-       }
-     }, [])
+        if (!displayName || !photoURL) {
+          throw new Error("Missing information from Google Account.")
+        }
+        setUser({
+          id: uid,
+          name: displayName,
+          avatar: photoURL,
+        })
+      }
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [])
 
-     async function signInWithGoogle() {
-       const provider = new GoogleAuthProvider()
-       const auth = getAuth()
+  async function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider()
 
-       const result = await signInWithPopup(auth, provider)
+    const result = await auth.signInWithPopup(provider)
 
-       if (result.user) {
-         const { displayName, photoURL, uid } = result.user
+    if (result.user) {
+      const { displayName, photoURL, uid } = result.user
 
-         if (!displayName || !photoURL) {
-           throw new Error("Missing information from Google Account.")
-         }
-         setUser({
-           id: uid,
-           name: displayName,
-           avatar: photoURL,
-         })
-       }
-     }
+      if (!displayName || !photoURL) {
+        throw new Error("Missing information from Google Account.")
+      }
+      setUser({
+        id: uid,
+        name: displayName,
+        avatar: photoURL,
+      })
+    }
+  }
 
   return (
-     <AuthContext.Provider value={{ user, signInWithGoogle }}>
+    <AuthContext.Provider value={{ user, signInWithGoogle }}>
       {props.children}
-     </AuthContext.Provider>
-   );
-
+    </AuthContext.Provider>
+  )
 }

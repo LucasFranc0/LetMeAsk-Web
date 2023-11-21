@@ -34,5 +34,15 @@
     }
   },
   "terminal.integrated.defaultProfile.windows": "Git Bash",
-  "cSpell.words": ["firestore", "Firestore"]
+  "cSpell.words": [
+    "aqui",
+    "Criar",
+    "entrar",
+    "existente",
+    "firestore",
+    "Firestore",
+    "Quer",
+    "sala",
+    "Sala"
+  ]
 }
