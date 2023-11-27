@@ -1,7 +1,6 @@
 import { Link, useHistory } from "react-router-dom"
 import { FormEvent, useState } from "react"
 
-
 import illustrationImg from "../assets/images/illustration.svg"
 import logoImg from "../assets/images/logo.svg"
 
@@ -15,7 +14,6 @@ export function NewRoom() {
   const history = useHistory()
   const { user } = useAuth()
   const [newRoom, setNewRoom] = useState("")
-  
 
   async function handleCreateRoom(event: FormEvent) {
     event.preventDefault()
@@ -49,7 +47,6 @@ export function NewRoom() {
         </p>
       </aside>
       <main>
-        
         <div className="main-content">
           <img src={logoImg} alt="LetMeAsk" />
           <h2> Criar uma nova sala </h2>

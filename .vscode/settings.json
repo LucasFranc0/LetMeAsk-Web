@@ -9,7 +9,7 @@
   "editor.minimap.enabled": false,
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "files.autoSave": "afterDelay",
+  // "files.autoSave": "afterDelay",
 
   // explorer
   "explorer.compactFolders": false,
@@ -36,13 +36,22 @@
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "cSpell.words": [
     "aqui",
+    "código",
     "Criar",
     "entrar",
+    "enviar",
+    "Enviar",
     "existente",
+    "faça",
     "firestore",
     "Firestore",
+    "Letmeask",
+    "pergunta",
+    "perguntar",
+    "perguntas",
     "Quer",
     "sala",
-    "Sala"
+    "Sala",
+    "você"
   ]
 }
