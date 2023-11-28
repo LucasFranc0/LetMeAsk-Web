@@ -1,18 +1,58 @@
 import logoImg from "../assets/images/logo.svg"
 
-import { RoomCode } from "../components/RoomCode"
-
-import { Button } from "../components/button"
+import { useParams } from "react-router-dom"
 
 import "../styles/room.scss"
 
+import { RoomCode } from "../components/RoomCode"
+import { Button } from "../components/button"
+
+import { FormEvent, useState } from "react"
+
+import { useAuth } from "../hooks/useAuth"
+
+import { database } from "../services/firebase"
+
+type RoomParams = {
+  id: string
+}
+
 export function Room() {
+  const { user } = useAuth()
+  const params = useParams<RoomParams>()
+  const roomId = params.id
+  const [newQuestion, setNewQuestion] = useState("")
+
+  async function handleCreateQuestion(event: FormEvent) {
+    event.preventDefault()
+    if (newQuestion.trim() === "") {
+      return
+    }
+
+    if (!user) {
+      throw new Error("You must be logged in")
+    }
+
+    const question = {
+      content: newQuestion,
+      author: {
+        name: user.name,
+        avatar: user.avatar,
+      },
+      isHighlighted: false,
+      isAnswered: false,
+    }
+
+    await database.ref(`rooms/${roomId}/questions`).push(question)
+
+    setNewQuestion("")
+  }
   return (
     <div id="page-room">
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
-          <RoomCode code="1231231241" />
+          <RoomCode code={roomId} />
         </div>
       </header>
 
@@ -22,15 +62,29 @@ export function Room() {
           <span>4 perguntas</span>
         </div>
 
-        <form>
-          <textarea placeholder="O que você quer perguntar?" />
+        <form onSubmit={handleCreateQuestion}>
+          <textarea
+            placeholder="O que você quer perguntar?"
+            onChange={(event) => setNewQuestion(event.target.value)}
+            value={newQuestion}
+          />
 
           <div className="form-footer">
-            <span>
+            {user ? (
+              <div className="user-info">
+                <img src={user.avatar} alt={user.name} />
+                <span>{user.name}</span>
+              </div>
+            ) : (
+              <span>
+                Para enviar uma pergunta, <button>faça seu login</button>.
+              </span>
+            )}
+
+            <Button type="submit" disabled={!user}>
               {" "}
-              Para enviar uma pergunta, <button>faça seu login</button>.
-            </span>
-            <Button type="submit">Enviar pergunta</Button>
+              Enviar pergunta{" "}
+            </Button>
           </div>
         </form>
       </main>
